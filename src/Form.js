@@ -1,35 +1,26 @@
-import React from "react";
+import React,{useState} from "react";
 import App from "./App";
 
 
-class Form extends React.Component {
-    state = {
-        value: ''
-    }
-
-    handleSubmit = (e) => {
+const Form = (props) => {
+    const [value, setValue] = useState();
+    const handleSubmit = (e) => {
         e.preventDefault();
-        if(this.state.value.trim() === ""){
+        if (value.trim() === "") {
             return
         }
-        this.props.submit(this.state.value)
-        this.setState({
-            value:''
-        })
+        props.submit(value)
+        setValue('')
     }
 
 
-    onChangeText = (e) => {
-        this.setState({
-            value: e.target.value
-        })
+    const onChangeText = (e) => {
+        setValue(e.target.value)
     }
-    render() {
-        return (
-            <form onSubmit={this.handleSubmit}>
-                <input className="input" type="text" value={this.state.value} placeholder='add todo' onChange={this.onChangeText} />
-            </form>
-        )
-    }
+    return (
+        <form onSubmit={handleSubmit}>
+            <input className="input" type="text" value={value} placeholder='add todo' onChange={onChangeText} />
+        </form>
+    )
 }
 export default Form;

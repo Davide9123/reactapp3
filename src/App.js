@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import './App.css'
 import Form from './Form.js';
 
@@ -13,41 +13,36 @@ const Todo = (props) => {
   )
 }
 
-class App extends React.Component {
-  state = {
-    todos: [
+const App = () => {
+  const [todos, setTodos] = useState(
+    [
       { name: 'Imparare React', complete: false },
       { name: 'Imparare Java', complete: false },
       { name: 'Imparare Phyton', complete: false }
-    ],
+    ]);
+
+
+  const addTodo = (todo) => {
+    const newTodos = [...todos, { name: todo }]
+    setTodos(newTodos)
   }
-  addTodo = (todo) => {
-    const newTodos = [...this.state.todos, { name: todo }]
-    this.setState({
-      todos: newTodos
-    })
-  }
-  completeTodo = (index) => {
-    const newTodos = [...this.state.todos];
+
+  const completeTodo = (index) => {
+    const newTodos = [...todos];
     newTodos[index].complete = true;
 
-    this.setState({
-      todos: newTodos
-    })
-
-  }
-  render() {
-    return (
-      <div className="app">
-        <div className="todo-list">
-          {this.state.todos.map((item, index) => (
-            <Todo key={index} todo={item} index={index} completeTodo={this.completeTodo} />
-          ))}
-          <Form submit={this.addTodo} />
-        </div>
-      </div>
-    )
-  }
+    setTodos(newTodos)
+}
+return (
+  <div className="app">
+    <div className="todo-list">
+      {todos.map((item, index) => (
+        <Todo key={index} todo={item} index={index} completeTodo={completeTodo} />
+      ))}
+      <Form submit={addTodo} />
+    </div>
+  </div>
+)
 }
 
 export default App;
